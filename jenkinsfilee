@@ -1,0 +1,42 @@
+pipeline{
+
+	agent any
+  tools{
+    maven 'm3'
+  }
+	environment {
+		DOCKERHUB_CREDENTIALS=credentials('docker-app')
+	}
+	stages {
+      stage('Build jar') {
+                  steps {
+                      script{
+                          echo "jar file is done"
+                          bat 'mvn package'
+                       }
+                   }
+               }
+         
+        stage('Build image') {
+                  steps {
+                      script{
+                          echo "image  file is done"
+                          withCredentials([usrnamePassword(credentialsId:'docker-app',passwordVariable:'pass',usernameVariable:'user')]){
+                              bat 'docker build -t khaddaji/jenkins-app:latest .'
+                              bat "echo $pass | docker login -u $user --passWord-stdin"
+                              bat 'docker push khaddaji/jenkins-app:latest'
+                          }
+                       }
+                   }
+               }
+                
+        stage('deploy') {
+          steps {
+            script{
+                 echo "deploy the application"
+             }
+          }
+        }
+	
+	
+}
