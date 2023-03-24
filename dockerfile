@@ -4,4 +4,4 @@ RUN mkdir -p /home/app
 COPY ./* /home/app/
 WORKDIR /home/app
 RUN npm install
-CMD ["java", "-jar"]
+CMD ["java", "-jar","spring-petclinic-2.1.0.BUILD-SNAPSHOT.jar"]
