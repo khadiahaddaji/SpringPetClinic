@@ -18,7 +18,7 @@ stages {
                   steps {
                       script{
                           echo "image  file is done"
-                          withCredentials([usrnamePassword(credentialsId:'docker-app',passwordVariable:'pass',usernameVariable:'user')]){
+                          withCredentials([usernamePassword(credentialsId:'docker-app',passwordVariable:'pass',usernameVariable:'user')]){
                               bat 'docker build -t khaddaji/jenkins-app:latest .'
                               bat "echo $pass | docker login -u $user --passWord-stdin"
                               bat 'docker push khaddaji/jenkins-app:latest'
